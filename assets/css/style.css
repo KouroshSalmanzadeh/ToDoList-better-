@@ -56,7 +56,11 @@ body {
     height: 100vh;
     opacity: 0;
     visibility: hidden;
-    transition: all 0.3s cubic-bezier(0, 0.65, 0.35, 1.6);
+    transition: all 0.5s ease;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -ms-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
 }
 
 .main-box-modal.overlay {
@@ -65,7 +69,6 @@ body {
     background: #121212a3;
     backdrop-filter: blur(5px);
     z-index: 10;
-    transition: all 0.3s cubic-bezier(0, 0.65, 0.35, 1.6);
 }
 
 .modal {
@@ -76,7 +79,7 @@ body {
     margin: auto;
     padding: 1rem;
     background-color: var(--green-color);
-    top: -11rem;
+    top: -21rem;
     border-radius: 1rem;
     transition: all 0.3s cubic-bezier(0, 0.65, 0.35, 1.6);
     -webkit-transition: all 0.3s cubic-bezier(0, 0.65, 0.35, 1.6);
@@ -93,10 +96,18 @@ body {
     font-size: 1.5rem;
     font-weight: 600;
 
-    span {
+    span.header {
         font-family: 'Kalam';
         font-size: 2.5rem;
         letter-spacing: -2px;
+    }
+
+    span.title-input.first-span {
+        margin: 1rem 22rem 0 0;
+    }
+
+    span.title-input.second-span {
+        margin: 1rem 17rem 0 1rem;
     }
 
     input {
@@ -121,6 +132,7 @@ body {
         height: 2.2em;
         border: none;
         cursor: pointer;
+        margin-top: 1rem;
         font-family: 'Montserrat';
         font-size: 1rem;
         border-radius: 0.6rem;
@@ -143,11 +155,28 @@ body {
             font-weight: 600;
         }
     }
+
+    svg {
+        opacity: 0;
+        visibility: hidden;
+        position: absolute;
+        left: 1rem;
+        cursor: pointer;
+        transition: all .3s ease;
+        -webkit-transition: all .3s ease;
+        -moz-transition: all .3s ease;
+        -ms-transition: all .3s ease;
+        -o-transition: all .3s ease;
+    }
 }
 
 .modal.welcome {
     top: 1rem;
     transition: all 0.3s cubic-bezier(0, 0.65, 0.35, 1.6);
+    -webkit-transition: all 0.3s cubic-bezier(0, 0.65, 0.35, 1.6);
+    -moz-transition: all 0.3s cubic-bezier(0, 0.65, 0.35, 1.6);
+    -ms-transition: all 0.3s cubic-bezier(0, 0.65, 0.35, 1.6);
+    -o-transition: all 0.3s cubic-bezier(0, 0.65, 0.35, 1.6);
 }
 
 .modal.error-number {
@@ -193,8 +222,90 @@ body {
         height: 2.5rem;
     }
 
+    svg {
+        opacity: 1;
+        visibility: visible;
+
+        &:hover {
+            rotate: 90deg;
+            scale: 1.3;
+        }
+    }
 }
 
+.to-do {
+    width: 0;
+    opacity: 0;
+    visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    border-radius: 1rem;
+    -webkit-border-radius: 1rem;
+    -moz-border-radius: 1rem;
+    -ms-border-radius: 1rem;
+    -o-border-radius: 1rem;
+    transition: all 0.3s ease;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+
+    .to-do-item {
+        width: 0;
+    }
+}
+
+.to-do.active {
+    opacity: 1;
+    visibility: visible;
+    width: 90%;
+    height: auto;
+
+    .to-do-item {
+        width: 100%;
+        height: auto;
+        background: linear-gradient(45deg, black 20%, #22faa200, black 80%);
+        background-size: 200%;
+        background-position: 120% 50%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: white;
+        padding: 0.5rem 1rem;
+        margin-bottom: 1rem;
+        border-radius: 0.7rem;
+        transition: all 0.3s ease;
+        -webkit-transition: all 0.3s ease;
+        -moz-transition: all 0.3s ease;
+        -ms-transition: all 0.3s ease;
+        -o-transition: all 0.3s ease;
+        -webkit-border-radius: 0.7rem;
+        -moz-border-radius: 0.7rem;
+        -ms-border-radius: 0.7rem;
+        -o-border-radius: 0.7rem;
+
+        .id-title {
+            color: var(--green-color);
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        &:hover {
+            cursor: pointer;
+            background-size: 200%;
+            background-position: -20% 50%;
+            box-shadow: 0px 10px 20px -5px #000;
+
+            .description {
+                color: var(--green-color);
+            }
+
+            .id-title {
+                color: white;
+            }
+        }
+    }
+}
 
 
 .clock-title {
@@ -204,6 +315,42 @@ body {
 .clock-title .title {
     font-size: 5rem;
     font-weight: bold;
+
+    .username {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .username span:nth-child(2) {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+
+        lord-icon {
+            transition: all 0.3s cubic-bezier(0, 0.65, 0.35, 1.6);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateX(-20%);
+            -webkit-transform: translateX(-20%);
+            -moz-transform: translateX(-20%);
+            -ms-transform: translateX(-20%);
+            -o-transform: translateX(-20%);
+        }
+
+        &:hover {
+            lord-icon {
+                opacity: 1;
+                visibility: visible;
+                color: #fff;
+                transform: translateX(50%);
+                -webkit-transform: translateX(50%);
+                -moz-transform: translateX(50%);
+                -ms-transform: translateX(50%);
+                -o-transform: translateX(50%);
+            }
+        }
+    }
 }
 
 .clock-title .clock {
