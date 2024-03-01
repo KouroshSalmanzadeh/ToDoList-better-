@@ -262,7 +262,9 @@ body {
     height: auto;
 
     .to-do-item {
-        width: 100%;
+        width: 0;
+        opacity: 0;
+        visibility: hidden;
         height: auto;
         background: linear-gradient(45deg, black 20%, #22faa200, black 80%);
         background-size: 200%;
@@ -304,6 +306,12 @@ body {
                 color: white;
             }
         }
+    }
+
+    .to-do-item.active {
+        opacity: 1;
+        visibility: visible;
+        width: 100%;
     }
 }
 

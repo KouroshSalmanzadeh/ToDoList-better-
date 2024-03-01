@@ -118,13 +118,15 @@ function addToDo() {
             debugger
             if (toDoDiv.innerHTML == '') {
                 toDoDiv.insertAdjacentHTML('afterbegin', lastToDo);
+                toDoDiv.classList.add('active');
             } else {
                 toDoDiv.lastElementChild.insertAdjacentHTML('afterend', lastToDo);
             }
-            toDoDiv.classList.add('active');
-        }, 1000);
+        }, 500);
+        setTimeout(() => {
+            toDoDiv.lastElementChild.classList.add('active');
+        }, 700);
     }
-
 }
 /////// Add clock time to html \\\\\\\
 const clock = document.querySelector('.clock');
