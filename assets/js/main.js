@@ -10,12 +10,14 @@ const closeIcon = document.querySelector('.modal svg');
 /////// To do list \\\\\\\
 const toDoDiv = document.querySelector('.to-do');
 const tarshBin = `<lord-icon
+class="trach-bin"
 src="https://cdn.lordicon.com/drxwpfop.json"
 trigger="hover"
 colors="primary:#fff,secondary:#22faa2"
 style="width:30px;height:30px">
 </lord-icon>`;
 const tickIcon = `<lord-icon
+class="tick"
 src="https://cdn.lordicon.com/cgzlioyf.json"
 trigger="hover"
 state="hover-loading"
@@ -23,6 +25,7 @@ colors="primary:#22faa2"
 style="width:30px;height:30px">
 </lord-icon>`;
 const editIcon = `<lord-icon
+class="edit"
 src = "https://cdn.lordicon.com/wuvorxbv.json"
 trigger = "hover"
 title="Edit"
@@ -31,6 +34,10 @@ colors="primary:#fff,secondary:#22faa2"
 style = "width:30px;height:30px;" >
 </lord-icon>`
 let toDo = [];
+
+/////// To do done list \\\\\\\
+const doneDiv = document.querySelector('.done');
+let done = [];
 
 document.addEventListener('DOMContentLoaded', function () {
     function randomBackground() {
@@ -79,9 +86,13 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     };
 
-    inputModal.addEventListener('keydown', () => {
+    inputModal.addEventListener('keydown', (event) => {
         if (modal.className == 'modal welcome' || modal.className == 'modal welcome error-number' || modal.className == 'modal welcome error-empty') {
             getUsername(event);
+        } else if (modal.className == 'modal active') {
+            if (event.key == 'Enter') {
+                confirmButtonClickHandler();
+            }
         }
     });
     buttonModal.addEventListener('click', () => {
@@ -92,77 +103,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
-
-function addToDo() {
-    const secondInput = document.querySelector('.modal .second-input');
-    if (inputModal.value !== '' && secondInput.value !== '') {
-        modal.classList.remove('add-goal');
-        setTimeout(() => {
-            mainModal.classList.remove('overlay');
-        }, 300);
-        let titleTodo = inputModal.value;
-        let newTodo = {
-            id: toDo.length + 1,
-            title: titleTodo,
-            description: secondInput.value
-        }
-        toDo.push(newTodo);
-        inputModal.value = '';
-        secondInput.value = '';
-        const lastToDo = `<li class="to-do-item">
-        <div class="id-title">${newTodo.id}- ${newTodo.title}</div>
-        <div class="description">${newTodo.description}</div>
-        <div class="delete-edit">${tickIcon}${editIcon}${tarshBin}</div></li>`;
-
-        setTimeout(() => {
-            debugger
-            if (toDoDiv.innerHTML == '') {
-                toDoDiv.insertAdjacentHTML('afterbegin', lastToDo);
-                toDoDiv.classList.add('active');
-            } else {
-                toDoDiv.lastElementChild.insertAdjacentHTML('afterend', lastToDo);
-            }
-        }, 500);
-        setTimeout(() => {
-            toDoDiv.lastElementChild.classList.add('active');
-        }, 700);
-    }
-}
-
-function editName() {
-    const nameSpan = document.querySelector('.username .name');
-    const titleInputs = document.querySelectorAll('.modal .title-input');
-    titleModal.innerText = 'Edit your name';
-    titleInputs.forEach(titleInput => {
-        titleInput.remove();
-    });
-    if (document.querySelector('.modal .second-input')) {
-        const secondInput = document.querySelector('.modal .second-input');
-        secondInput.remove();
-
-    };
-    inputModal.value = '';
-    inputModal.setAttribute('placeholder', 'Enter your new name');
-    buttonModal.innerText = 'Confirm';
-    mainModal.classList.add('overlay');
-    modal.classList.add('active');
-
-    
-    // حذف event listener های قبلی
-    // اضافه کردن event listener جدید
-    buttonModal.addEventListener('click', confirmButtonClickHandler);
-
-    function confirmButtonClickHandler() {
-        debugger
-        modal.classList.remove('active');
-        nameSpan.innerHTML = inputModal.value + editIcon;
-        mainModal.classList.remove('overlay');
-        inputModal.value = '';
-        buttonModal.removeEventListener('click', confirmButtonClickHandler);
-
-    };
-};
-
 
 /////// Add clock time to html \\\\\\\
 const clock = document.querySelector('.clock');
@@ -182,6 +122,43 @@ setInterval(() => {
 
 
 /////// Add goal to list \\\\\\\
+function addToDo() {
+    const secondInput = document.querySelector('.modal .second-input');
+    if (inputModal.value !== '' && secondInput.value !== '') {
+        modal.classList.remove('add-goal');
+        setTimeout(() => {
+            mainModal.classList.remove('overlay');
+        }, 300);
+        let titleTodo = inputModal.value;
+        let newTodo = {
+            id: toDo.length + 1,
+            title: titleTodo,
+            description: secondInput.value
+        }
+        toDo.push(newTodo);
+        inputModal.value = '';
+        secondInput.value = '';
+        const titleToDoDiv = `<span class="title-to-do">To Do List</span>`;
+        const lastToDo = `<li class="to-do-item">
+        <div class="id-title"><span class="id">${newTodo.id}</span>- <span>${newTodo.title}</span></div>
+        <div class="description">${newTodo.description}</div>
+        <div class="manage-item">${tickIcon}${editIcon}${tarshBin}</div></li>`;
+
+        setTimeout(() => {
+            if (toDoDiv.innerHTML == '') {
+                toDoDiv.insertAdjacentHTML('afterbegin', titleToDoDiv);
+                toDoDiv.lastElementChild.insertAdjacentHTML('afterend', lastToDo);
+                toDoDiv.classList.add('active');
+            } else {
+                toDoDiv.lastElementChild.insertAdjacentHTML('afterend', lastToDo);
+            }
+        }, 500);
+        setTimeout(() => {
+            toDoDiv.lastElementChild.classList.add('active');
+            tickToDo();
+        }, 700);
+    }
+}
 const btnAddGoal = document.querySelector('.clock-title .btn-add-goal');
 btnAddGoal.addEventListener('click', () => {
     const new_title = `<span class="title-input first-span">Title:</span>`
@@ -226,7 +203,102 @@ closeIcon.addEventListener('click', () => {
     modal.className = 'modal';
 });
 
+
 /////// Edit Name \\\\\\\
+function editName() {
+    // debugger
+    const titleInputs = document.querySelectorAll('.modal .title-input');
+    titleModal.innerText = 'Edit your name';
+    titleInputs.forEach(titleInput => {
+        titleInput.remove();
+    });
+    if (document.querySelector('.modal .second-input')) {
+        const secondInput = document.querySelector('.modal .second-input');
+        secondInput.remove();
+
+    };
+    inputModal.value = '';
+    inputModal.setAttribute('placeholder', 'Enter your new name');
+    buttonModal.innerText = 'Confirm';
+    mainModal.classList.add('overlay');
+    modal.classList.add('active');
+
+
+    // اضافه کردن event listener جدید
+    buttonModal.addEventListener('click', confirmButtonClickHandler);
+
+
+};
+
+function confirmButtonClickHandler() {
+    const nameSpan = document.querySelector('.username .name');
+    debugger
+    modal.classList.remove('active');
+    nameSpan.innerHTML = inputModal.value + editIcon;
+    mainModal.classList.remove('overlay');
+    inputModal.value = '';
+
+    // حذف event listener های قبلی
+    buttonModal.removeEventListener('click', confirmButtonClickHandler);
+
+};
 username.addEventListener('click', () => {
     editName();
 });
+
+/////// Manage to do item \\\\\\\
+function tickToDo() {
+    function tickToDoItemHandler(event) {
+        const idGet = parseInt(event.target.parentElement.previousElementSibling.previousElementSibling.firstChild.innerText);
+        const ToDoTicked = toDo.find(obj => obj.id == idGet);
+
+
+        // toDoDoneعدد گذاری مجدد آیدی های آرایه
+        toDo.filter(item => item !== ToDoTicked);
+        for (let i = 0; i < toDo.length; i++) {
+            toDo[i].id = i + 1;
+        }
+
+        // doneعدد گذاری مجدد آیدی های آرایه
+        let newTodo = {
+            id: done.length + 1,
+            title: ToDoTicked.title,
+            description: ToDoTicked.description
+        }
+        done.push(newTodo);
+
+        const titleDoneDiv = `<span class="title-done">Done List</span>`;
+        const lastToDo = `<li class="to-do-item">
+            <div class="id-title"><span class="id">${newTodo.id}</span>- <span>${newTodo.title}</span></div>
+            <div class="description">${newTodo.description}</div>
+            <div class="manage-item">${tarshBin}</div></li>`;
+
+        if (doneDiv.innerHTML == '') {
+            doneDiv.insertAdjacentHTML('afterbegin', titleDoneDiv);
+            doneDiv.lastElementChild.insertAdjacentHTML('afterend', lastToDo);
+            doneDiv.classList.add('active');
+        } else {
+            doneDiv.lastElementChild.insertAdjacentHTML('afterend', lastToDo);
+        }
+        setTimeout(() => {
+            const parentElement = event.target.parentElement.parentElement;
+            parentElement.classList.remove('active');
+            parentElement.remove();
+            setTimeout(() => {
+                doneDiv.classList.add('active');
+                doneDiv.lastElementChild.classList.add('tick');
+            }, 200);
+        }, 400);
+    };
+
+    const tickIcons = document.querySelectorAll('.manage-item .tick');
+
+    tickIcons.forEach(tickIcon => {
+        debugger
+        tickIcons.forEach(tickIcon => {
+            tickIcon.removeEventListener('click', tickToDoItemHandler);
+        });
+
+        tickIcon.addEventListener('click', tickToDoItemHandler);
+    });
+}
