@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (modal.classList == 'modal welcome') {
             if (event.key === 'Enter' || event.type == 'click') {
                 if (inputModal.value != '' && /^[a-zA-Z]+$/.test(inputModal.value)) {
-                    username.innerHTML = `<span>Hello </span>` + `<span>${inputModal.value}${editIcon}</span>`;
+                    username.innerHTML = `<span>Hello </span>` + `<span class="name">${inputModal.value}${editIcon}</span>`;
                     modal.classList.remove('welcome');
                     setTimeout(() => {
                         mainModal.classList.remove('overlay');
@@ -128,6 +128,42 @@ function addToDo() {
         }, 700);
     }
 }
+
+function editName() {
+    const nameSpan = document.querySelector('.username .name');
+    const titleInputs = document.querySelectorAll('.modal .title-input');
+    titleModal.innerText = 'Edit your name';
+    titleInputs.forEach(titleInput => {
+        titleInput.remove();
+    });
+    if (document.querySelector('.modal .second-input')) {
+        const secondInput = document.querySelector('.modal .second-input');
+        secondInput.remove();
+
+    };
+    inputModal.value = '';
+    inputModal.setAttribute('placeholder', 'Enter your new name');
+    buttonModal.innerText = 'Confirm';
+    mainModal.classList.add('overlay');
+    modal.classList.add('active');
+
+    
+    // حذف event listener های قبلی
+    // اضافه کردن event listener جدید
+    buttonModal.addEventListener('click', confirmButtonClickHandler);
+
+    function confirmButtonClickHandler() {
+        debugger
+        modal.classList.remove('active');
+        nameSpan.innerHTML = inputModal.value + editIcon;
+        mainModal.classList.remove('overlay');
+        inputModal.value = '';
+        buttonModal.removeEventListener('click', confirmButtonClickHandler);
+
+    };
+};
+
+
 /////// Add clock time to html \\\\\\\
 const clock = document.querySelector('.clock');
 setInterval(() => {
@@ -175,18 +211,22 @@ btnAddGoal.addEventListener('click', () => {
             }
         }
     });
-})
-
+});
 mainModal.addEventListener('click', (event) => {
     // debugger
-    if (modal.className == 'modal add-goal') {
+    if (modal.className !== 'modal welcome') {
         if (event.target == mainModal) {
             mainModal.classList.remove('overlay');
-            modal.classList.remove('add-goal');
+            modal.className = 'modal';
         }
     }
 });
 closeIcon.addEventListener('click', () => {
     mainModal.classList.remove('overlay');
-    modal.classList.remove('add-goal');
+    modal.className = 'modal';
+});
+
+/////// Edit Name \\\\\\\
+username.addEventListener('click', () => {
+    editName();
 });
