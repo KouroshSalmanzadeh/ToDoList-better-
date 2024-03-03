@@ -18,6 +18,7 @@ body {
     height: 100vh;
     display: grid;
     grid-template-columns: 35% auto 35%;
+    grid-template-rows: 90%;
     justify-items: center;
     align-content: center;
 }
@@ -264,6 +265,54 @@ body {
     }
 }
 
+.to-do-item {
+    width: 0;
+    opacity: 0;
+    visibility: hidden;
+    height: auto;
+    background: linear-gradient(45deg, black 20%, #22faa200, black 80%);
+    background-size: 200%;
+    background-position: 120% 50%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: white;
+    padding: 0.5rem 1rem;
+    margin-bottom: 1rem;
+    border-radius: 0.7rem;
+    transition: all 0.3s ease;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    -webkit-border-radius: 0.7rem;
+    -moz-border-radius: 0.7rem;
+    -ms-border-radius: 0.7rem;
+    -o-border-radius: 0.7rem;
+
+    .id-title {
+        color: var(--green-color);
+        font-size: 1.1rem;
+        font-weight: 500;
+    }
+
+    &:hover {
+        cursor: pointer;
+        scale: 1.05;
+        background-size: 200%;
+        background-position: -20% 50%;
+        box-shadow: 0px 10px 20px -5px #000;
+
+        .description {
+            color: var(--green-color);
+        }
+
+        .id-title {
+            color: white;
+        }
+    }
+}
+
 .to-do.active {
     opacity: 1;
     visibility: visible;
@@ -278,53 +327,6 @@ body {
         color: var(--green-color);
     }
 
-    .to-do-item {
-        width: 0;
-        opacity: 0;
-        visibility: hidden;
-        height: auto;
-        background: linear-gradient(45deg, black 20%, #22faa200, black 80%);
-        background-size: 200%;
-        background-position: 120% 50%;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        color: white;
-        padding: 0.5rem 1rem;
-        margin-bottom: 1rem;
-        border-radius: 0.7rem;
-        transition: all 0.3s ease;
-        -webkit-transition: all 0.3s ease;
-        -moz-transition: all 0.3s ease;
-        -ms-transition: all 0.3s ease;
-        -o-transition: all 0.3s ease;
-        -webkit-border-radius: 0.7rem;
-        -moz-border-radius: 0.7rem;
-        -ms-border-radius: 0.7rem;
-        -o-border-radius: 0.7rem;
-
-        .id-title {
-            color: var(--green-color);
-            font-size: 1.1rem;
-            font-weight: 500;
-        }
-
-        &:hover {
-            cursor: pointer;
-            background-size: 200%;
-            background-position: -20% 50%;
-            box-shadow: 0px 10px 20px -5px #000;
-
-            .description {
-                color: var(--green-color);
-            }
-
-            .id-title {
-                color: white;
-            }
-        }
-    }
-
     .to-do-item.active {
         opacity: 1;
         visibility: visible;
@@ -332,8 +334,12 @@ body {
     }
 }
 
+
 .clock-title {
     text-align: center;
+    display: grid;
+    grid-template-rows: 40% 20%;
+    align-items: baseline;
 }
 
 .clock-title .title {
@@ -442,8 +448,18 @@ body {
     -ms-transition: all 0.3s ease;
     -o-transition: all 0.3s ease;
 
-    .to-do-item {
+    .container-to-do {
         width: 0;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+
+
+        .to-do-item {
+            width: 88%;
+            opacity: 1;
+            visibility: visible;
+        }
     }
 }
 
@@ -460,58 +476,38 @@ body {
         color: var(--green-color);
     }
 
-    .to-do-item {
-        width: 0;
-        opacity: 0;
-        visibility: hidden;
-        height: auto;
-        background: linear-gradient(45deg, black 20%, #22faa200, black 80%);
-        background-size: 200%;
-        background-position: 120% 50%;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        color: white;
-        padding: 0.5rem 1rem;
-        margin-bottom: 1rem;
-        border-radius: 0.7rem;
-        transition: all 0.3s ease;
-        -webkit-transition: all 0.3s ease;
-        -moz-transition: all 0.3s ease;
-        -ms-transition: all 0.3s ease;
-        -o-transition: all 0.3s ease;
-        -webkit-border-radius: 0.7rem;
-        -moz-border-radius: 0.7rem;
-        -ms-border-radius: 0.7rem;
-        -o-border-radius: 0.7rem;
-
-        .id-title {
-            color: var(--green-color);
-            font-size: 1.1rem;
-            font-weight: 500;
-        }
-
-        &:hover {
-            cursor: pointer;
-            background-size: 200%;
-            background-position: -20% 50%;
-            box-shadow: 0px 10px 20px -5px #000;
-
-            .description {
-                color: var(--green-color);
-            }
-
-            .id-title {
-                color: white;
-            }
-        }
-    }
-
-    .to-do-item.tick {
+    .container-to-do.tick {
         opacity: 1;
         visibility: visible;
         width: 100%;
+        display: flex;
+        justify-content: space-between;
+
+        .to-do-item {
+            background: linear-gradient(45deg, var(--green-color) 20%, #00ff9700, var(--green-color) 80%);
+            background-size: 200%;
+            background-position: 120% 50%;
+
+            .id-title {
+                color: black;
+            }
+
+            &:hover {
+                background-position: -20% 50%;
+
+                .id-title {
+                    color: white;
+                }
+
+                .description {
+                    color: black;
+                }
+
+            }
+        }
     }
+
+
 }
 
 /* .to-do.tick {} */
